@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>팀장 리더십 진단</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0C0C12;
+  --surf:    #13131C;
+  --surf2:   #1A1A26;
+  --surf3:   #222230;
+  --line:    rgba(255,255,255,.09);
+  --text:    #F2F0FF;
+  --sub:     #A09CC0;
+  --lav:     #C4B0FF;
+  --lav2:    #9B87F5;
+  --teal:    #7ECFBD;
+  --amber:   #F0C07A;
+  --coral:   #F07A8A;
+  --green:   #8ED4A0;
+  --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:18px;line-height:1.7;overflow-x:hidden}
+.shell{max-width:700px;margin:0 auto;padding:0 1.5rem 7rem}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1.75rem 0 2.25rem}
+.nav-brand{display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--sub)}
+.pip{width:8px;height:8px;border-radius:50%;background:var(--lav);box-shadow:0 0 10px var(--lav);animation:pip 2.6s ease-in-out infinite}
+@keyframes pip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.nav-adm{background:none;border:1px solid var(--line);border-radius:var(--r-sm);color:var(--sub);font-size:13px;padding:7px 16px;cursor:pointer;font-family:inherit;transition:all .2s}
+.nav-adm:hover{border-color:var(--lav);color:var(--lav)}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* ── INTRO ── */
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(196,176,255,.1);border:1px solid rgba(196,176,255,.22);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:500;letter-spacing:.1em;color:var(--lav);margin-bottom:2rem;font-family:'Space Mono',monospace}
+.intro-title{font-size:clamp(32px,6vw,52px);font-weight:900;line-height:1.15;margin-bottom:1.25rem;letter-spacing:-.025em}
+.intro-title em{font-style:normal;background:linear-gradient(120deg,var(--lav),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.intro-desc{font-size:17px;color:var(--sub);max-width:540px;margin-bottom:2.5rem;line-height:1.85}
+.meta-row{display:flex;flex-wrap:wrap;gap:1.25rem;margin-bottom:2.5rem}
+.mc{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--sub)}
+.mc-ic{width:30px;height:30px;border-radius:8px;background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* STRUCTURE CARD */
+.struct-card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.75rem;margin-bottom:2rem}
+.struct-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--sub);margin-bottom:1.25rem;text-transform:uppercase}
+.struct-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.struct-item{background:var(--surf2);border-radius:var(--r-sm);padding:1rem 1.1rem;display:flex;align-items:flex-start;gap:10px}
+.s-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.s-txt{font-size:13px;color:var(--sub);line-height:1.55}
+.s-txt strong{color:var(--text);display:block;font-size:15px;margin-bottom:2px}
+
+/* INPUT */
+.input-card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem;margin-bottom:1.75rem}
+.irow{display:flex;gap:12px;flex-wrap:wrap}
+.field{flex:1;min-width:160px}
+.field label{display:block;font-size:13px;color:var(--sub);margin-bottom:7px;font-weight:500}
+.field input{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 16px;font-size:16px;color:var(--text);font-family:inherit;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--lav)}
+.field input::placeholder{color:var(--surf3);color:rgba(160,156,192,.4)}
+
+/* BUTTONS */
+.btn-p{background:linear-gradient(135deg,var(--lav),var(--lav2));color:#0C0C12;border:none;border-radius:var(--r-md);padding:17px 40px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:10px}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,176,255,.3)}
+.btn-p:active{transform:none}
+.btn-p:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-g{background:none;border:1px solid var(--line);border-radius:var(--r-md);color:var(--sub);padding:13px 26px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-g:hover{border-color:var(--lav);color:var(--lav)}
+
+/* ── QUIZ ── */
+.quiz-top{display:flex;align-items:center;gap:14px;padding:1.5rem 0 2.25rem}
+.q-cnt{font-family:'Space Mono',monospace;font-size:13px;color:var(--sub);flex-shrink:0;min-width:56px}
+.prog-track{flex:1;height:4px;background:var(--surf2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--lav),var(--teal));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.part-badge{font-size:12px;color:var(--sub);flex-shrink:0;font-weight:500}
+
+/* PART DIVIDER */
+.part-divider{background:var(--surf);border:1px solid rgba(196,176,255,.2);border-radius:var(--r-lg);padding:1.5rem 1.75rem;margin-bottom:1.75rem}
+.part-divider .pd-num{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--lav);margin-bottom:.4rem}
+.part-divider .pd-title{font-size:22px;font-weight:700;margin-bottom:.35rem}
+.part-divider .pd-desc{font-size:15px;color:var(--sub);line-height:1.7}
+
+.q-scenario{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-xl);padding:2.25rem;margin-bottom:1.5rem}
+.q-text{font-size:20px;font-weight:600;line-height:1.6;color:var(--text);margin-bottom:.6rem}
+.q-sub{font-size:15px;color:var(--sub);line-height:1.7}
+
+.choices{display:flex;flex-direction:column;gap:12px}
+.choice{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.4rem 1.6rem;cursor:pointer;transition:all .18s;display:flex;align-items:flex-start;gap:14px}
+.choice:hover{border-color:rgba(196,176,255,.35);background:var(--surf2);transform:translateX(4px)}
+.choice.sel{border-color:var(--lav);background:rgba(196,176,255,.1)}
+.choice-alpha{width:30px;height:30px;border-radius:8px;background:var(--surf2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:var(--sub);flex-shrink:0;margin-top:2px;transition:all .18s}
+.choice.sel .choice-alpha{background:var(--lav);border-color:var(--lav);color:#0C0C12;font-weight:700}
+.choice-text{font-size:17px;line-height:1.65;color:var(--sub)}
+.choice.sel .choice-text{color:var(--text);font-weight:500}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;padding-top:1.75rem;border-top:1px solid var(--line)}
+
+/* ── RESULT ── */
+.res-hero{text-align:center;padding:2rem 0 2.5rem}
+.res-ring{position:relative;width:150px;height:150px;margin:0 auto 1.75rem}
+.res-ring canvas{position:absolute;inset:0}
+.res-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.res-type-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--lav);margin-bottom:.5rem;text-transform:uppercase}
+.res-typename{font-size:26px;font-weight:900;margin-bottom:.5rem;letter-spacing:-.02em}
+.res-desc{font-size:16px;color:var(--sub);max-width:500px;margin:0 auto;line-height:1.8}
+
+/* SCORE PANEL */
+.score-panel{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-xl);padding:2rem;margin-bottom:1.5rem}
+.score-row{margin-bottom:16px}
+.score-row:last-child{margin-bottom:0}
+.score-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.score-name{font-size:16px;font-weight:600}
+.score-nums{font-family:'Space Mono',monospace;font-size:13px;color:var(--sub);display:flex;gap:12px}
+.score-nums .now{color:var(--lav)}
+.score-nums .want{color:var(--teal)}
+.score-nums .gap{color:var(--coral)}
+.score-bar-bg{height:6px;background:var(--surf2);border-radius:4px;overflow:hidden;position:relative}
+.score-bar-now{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--lav),var(--lav2));transition:width 1s cubic-bezier(.4,0,.2,1)}
+.score-bar-want{position:absolute;top:0;height:100%;border-radius:4px;background:rgba(126,207,189,.3);transition:width 1s .1s cubic-bezier(.4,0,.2,1)}
+.score-legend{display:flex;gap:16px;margin-bottom:1.25rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub)}
+.legend-dot{width:10px;height:4px;border-radius:2px}
+
+/* TYPE CARD */
+.type-card{background:linear-gradient(135deg,rgba(196,176,255,.1),rgba(126,207,189,.05));border:1px solid rgba(196,176,255,.2);border-radius:var(--r-xl);padding:2rem;margin-bottom:1.5rem}
+.type-card-title{font-size:13px;font-family:'Space Mono',monospace;letter-spacing:.1em;color:var(--lav);margin-bottom:.6rem;text-transform:uppercase}
+.type-card-name{font-size:28px;font-weight:900;margin-bottom:.6rem;letter-spacing:-.02em}
+.type-card-desc{font-size:16px;color:var(--sub);line-height:1.8}
+
+/* REC */
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:1rem}
+.rec-card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.4rem;position:relative;transition:border-color .18s}
+.rec-card:hover{border-color:rgba(196,176,255,.3)}
+.rec-pri{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;background:rgba(240,122,138,.15);color:var(--coral)}
+.rec-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:11px}
+.rec-skill{font-size:12px;color:var(--sub);margin-bottom:4px;font-weight:500}
+.rec-course{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:5px}
+.rec-gap{font-size:12px;color:var(--coral)}
+
+/* RESULT ACTIONS */
+.res-acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--line)}
+
+/* ── ADMIN ── */
+.adm-gate-wrap{max-width:380px;margin:3rem auto}
+.adm-gate{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-xl);padding:2.5rem;text-align:center}
+.adm-gate h3{font-size:20px;font-weight:700;margin:1rem 0 .5rem}
+.adm-gate p{font-size:14px;color:var(--sub);margin-bottom:1.5rem}
+.adm-pw{width:100%;background:var(--surf2);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;font-size:16px;color:var(--text);font-family:inherit;outline:none;text-align:center;letter-spacing:.2em;margin-bottom:12px;transition:border-color .2s}
+.adm-pw:focus{border-color:var(--lav)}
+.adm-err{font-size:13px;color:var(--coral);margin-top:8px;display:none}
+.adm-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:2rem}
+.adm-title{font-size:22px;font-weight:700}
+.adm-ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.adm-sel{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 13px;font-size:13px;color:var(--text);font-family:inherit;outline:none;cursor:pointer}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:2rem}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.1rem}
+.kpi-l{font-size:12px;color:var(--sub);margin-bottom:6px}
+.kpi-v{font-size:28px;font-weight:700;line-height:1}
+.kpi-s{font-size:12px;color:var(--sub);margin-top:4px}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:var(--r-xl);padding:1.75rem;margin-bottom:1.5rem}
+.panel-ttl{font-size:15px;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.panel-ttl::after{content:'';flex:1;height:1px;background:var(--line)}
+.abr-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.abr-lbl{width:80px;font-size:13px;color:var(--sub);text-align:right;flex-shrink:0}
+.abr-bg{flex:1;height:18px;background:var(--surf2);border-radius:3px;overflow:hidden}
+.abr-fill{height:100%;border-radius:3px;transition:width .8s}
+.abr-val{width:36px;font-size:13px;font-family:'Space Mono',monospace;flex-shrink:0}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--line)}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
+.ptbl th{font-size:11px;font-weight:500;color:var(--sub);background:var(--surf);padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;font-family:'Space Mono',monospace}
+.ptbl td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:hover td{background:var(--surf2)}
+.chip{display:inline-block;font-size:11px;padding:3px 9px;border-radius:100px;font-weight:500}
+.ch-a{background:rgba(126,207,189,.15);color:var(--teal)}
+.ch-b{background:rgba(240,192,122,.15);color:var(--amber)}
+.ch-c{background:rgba(240,122,138,.15);color:var(--coral)}
+.gas-notice{border-radius:var(--r-md);padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;line-height:1.8}
+.gn-ok{background:rgba(126,207,189,.07);border:1px solid rgba(126,207,189,.2);color:var(--teal)}
+.gn-warn{background:rgba(240,192,122,.07);border:1px solid rgba(240,192,122,.2);color:var(--amber)}
+.gn-err{background:rgba(240,122,138,.07);border:1px solid rgba(240,122,138,.2);color:var(--coral)}
+.gn-info{background:var(--surf);border:1px solid var(--line);color:var(--sub)}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surf2);border:1px solid var(--line);color:var(--text);font-size:14px;padding:11px 22px;border-radius:100px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(196,176,255,.2);border-top-color:var(--lav);border-radius:50%;animation:spin .7s linear infinite;margin-right:7px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sec-lbl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--sub);margin-bottom:1rem;display:flex;align-items:center;gap:10px;text-transform:uppercase}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+.div{height:1px;background:var(--line);margin:2rem 0}
+@media(max-width:480px){
+  .struct-grid{grid-template-columns:1fr}
+  .intro-title{font-size:30px}
+  .q-text{font-size:17px}
+  .choice-text{font-size:15px}
+  .adm-ctrl{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<nav class="nav">
+  <div class="nav-brand"><div class="pip"></div>LEADERSHIP DIAGNOSTIC</div>
+  <button class="nav-adm" onclick="goAdmin()">관리자 →</button>
+</nav>
+
+<!-- ════ INTRO ════ -->
+<div class="page active" id="pg-intro">
+  <div class="badge">SITUATIONAL SELF-ASSESSMENT</div>
+  <h1 class="intro-title">나는 어떤<br><em>팀장</em>인가?</h1>
+  <p class="intro-desc">
+    지금의 나와 내가 바라는 모습을 비교해,
+    진짜 필요한 교육을 찾아드립니다.<br>
+    정답이 없는 상황 질문에 솔직하게 답해주세요.
+  </p>
+  <div class="meta-row">
+    <span class="mc"><span class="mc-ic">⏱</span> 약 5분</span>
+    <span class="mc"><span class="mc-ic">❓</span> 14개 상황 문항</span>
+    <span class="mc"><span class="mc-ic">🎯</span> 6가지 리더십 역량</span>
+    <span class="mc"><span class="mc-ic">📐</span> Gap 분석 기반 추천</span>
+  </div>
+  <div class="struct-card">
+    <div class="struct-title">진단 구조</div>
+    <div class="struct-grid">
+      <div class="struct-item">
+        <div class="s-dot" style="background:var(--lav)"></div>
+        <div class="s-txt"><strong>PART 1 — 현재의 나</strong>실제 업무 상황에서 자연스럽게 하는 행동 7문항</div>
+      </div>
+      <div class="struct-item">
+        <div class="s-dot" style="background:var(--teal)"></div>
+        <div class="s-txt"><strong>PART 2 — 바라는 나</strong>더 성장하고 싶은 방향을 묻는 7문항</div>
+      </div>
+      <div class="struct-item">
+        <div class="s-dot" style="background:var(--amber)"></div>
+        <div class="s-txt"><strong>유형 도출</strong>현재 강점 Top 2 조합으로 리더십 유형 도출</div>
+      </div>
+      <div class="struct-item">
+        <div class="s-dot" style="background:var(--coral)"></div>
+        <div class="s-txt"><strong>교육 추천</strong>희망 − 현재 = Gap 큰 순서로 맞춤 교육 추천</div>
+      </div>
+    </div>
+  </div>
+  <div class="input-card">
+    <div class="irow">
+      <div class="field">
+        <label>이름 (또는 닉네임)</label>
+        <input id="i-name" type="text" placeholder="홍길동 팀장"/>
+      </div>
+      <div class="field">
+        <label>소속 부서</label>
+        <input id="i-dept" type="text" placeholder="영업1팀"/>
+      </div>
+    </div>
+  </div>
+  <button class="btn-p" onclick="startQuiz()">
+    진단 시작하기
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<!-- ════ QUIZ ════ -->
+<div class="page" id="pg-quiz">
+  <div class="quiz-top">
+    <span class="q-cnt" id="q-cnt">01 / 14</span>
+    <div class="prog-track"><div class="prog-fill" id="q-prog" style="width:0%"></div></div>
+    <span class="part-badge" id="q-part">PART 1</span>
+  </div>
+  <div id="q-stage"></div>
+  <div class="q-nav">
+    <button class="btn-g" id="q-back" onclick="prevQ()" style="visibility:hidden">← 이전</button>
+    <button class="btn-p" id="q-next" onclick="nextQ()" disabled>
+      다음
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ════ RESULT ════ -->
+<div class="page" id="pg-result">
+  <div class="res-hero">
+    <div class="res-ring">
+      <canvas id="ring-cv" width="150" height="150"></canvas>
+      <div class="res-ring-center">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--sub);margin-bottom:3px">종합 강점</div>
+        <div style="font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--lav),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1" id="r-ring-label">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="type-card">
+    <div class="type-card-title" id="r-type-tag">유형</div>
+    <div class="type-card-name" id="r-typename">-</div>
+    <div class="type-card-desc" id="r-typedesc">-</div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="sec-lbl">역량별 점수 비교</div>
+  <div class="score-panel">
+    <div class="score-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--lav)"></span>현재의 나</span>
+      <span class="legend-item"><span class="legend-dot" style="background:rgba(126,207,189,.5)"></span>바라는 나</span>
+      <span class="legend-item"><span class="legend-dot" style="background:rgba(240,122,138,.5)"></span>Gap(차이)</span>
+    </div>
+    <div id="r-score-rows"></div>
+  </div>
+
+  <div class="sec-lbl">추천 교육 과정</div>
+  <p style="font-size:15px;color:var(--sub);margin-bottom:.75rem;line-height:1.7">
+    희망하는 모습과 현재의 차이(Gap)가 큰 역량 순으로 추천드립니다.
+  </p>
+  <div class="rec-grid" id="r-recs"></div>
+
+  <div class="res-acts">
+    <button class="btn-g" onclick="dlTxt()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      결과 저장
+    </button>
+    <button class="btn-g" onclick="doPrint()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      인쇄 / PDF
+    </button>
+    <button class="btn-g" onclick="retake()">다시 진단하기</button>
+  </div>
+</div>
+
+<!-- ════ ADMIN ════ -->
+<div class="page" id="pg-admin">
+  <div id="adm-gate">
+    <div class="adm-gate-wrap">
+      <div class="adm-gate">
+        <div style="font-size:34px">🔐</div>
+        <h3>관리자 로그인</h3>
+        <p>비밀번호를 입력해주세요</p>
+        <input class="adm-pw" id="adm-pw" type="password" placeholder="• • • • • • • •"
+          onkeydown="if(event.key==='Enter')admLogin()"/>
+        <button class="btn-p" style="width:100%;justify-content:center" onclick="admLogin()">로그인</button>
+        <p class="adm-err" id="adm-err">비밀번호가 올바르지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+  <div id="adm-dash" style="display:none">
+    <div class="adm-hd">
+      <div class="adm-title">관리자 대시보드</div>
+      <div class="adm-ctrl">
+        <button class="btn-g" onclick="loadAdmData()" style="padding:9px 18px;font-size:13px">↺ 새로고침</button>
+        <button class="btn-g" onclick="dlCSV()" style="padding:9px 18px;font-size:13px">CSV 다운로드</button>
+        <select class="adm-sel" id="f-dept" onchange="renderAdm()"><option value="">전체 소속</option></select>
+      </div>
+    </div>
+    <div id="gas-notice" class="gas-notice gn-info"></div>
+    <div id="kpi-grid" class="kpi-grid"></div>
+    <div class="panel">
+      <div class="panel-ttl">역량별 평균 — 현재</div>
+      <div id="adm-now-chart"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-ttl">역량별 Gap (희망 − 현재) · 교육 수요</div>
+      <div id="adm-gap-chart"></div>
+    </div>
+    <div class="panel-ttl" style="margin-bottom:.75rem">팀장별 결과</div>
+    <div class="tbl-wrap">
+      <table class="ptbl">
+        <thead><tr>
+          <th>이름</th><th>소속</th><th>유형</th>
+          <th>영향력</th><th>사업감각</th><th>통찰력</th><th>혁신성</th><th>글로벌</th><th>감성+육성</th>
+          <th>Top Gap</th><th>제출일</th>
+        </tr></thead>
+        <tbody id="adm-tbl"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<form name="assessment" netlify netlify-honeypot="bot-field" hidden>
+  <input name="name"/><input name="dept"/><input name="typename"/>
+  <input name="influence"/><input name="business"/><input name="insight"/>
+  <input name="innovation"/><input name="global"/><input name="empathy"/>
+</form>
+
+<script>
+/* ════════════════════════════════
+   CONFIG
+════════════════════════════════ */
+const GAS_URL  = 'https://script.google.com/macros/s/AKfycbz1NncAia0K8CZMhNVZgMs2nslxbm62LKc2xlS8-eMVV1SQUCGTc6wOA6n4jyrASF2wOw/exec';
+const ADMIN_PW = '6904';
+
+/* ════════════════════════════════
+   6 COMPETENCIES
+════════════════════════════════ */
+const COMP = [
+  { id:'influence',   name:'영향력',   icon:'🌐', color:'#C4B0FF', bg:'rgba(196,176,255,.12)',
+    courses:['협상'],
+    desc:'사람을 설득하고 협력을 이끌어내는 힘' },
+  { id:'business',    name:'사업감각', icon:'📊', color:'#F0C07A', bg:'rgba(240,192,122,.1)',
+    courses:['손익관리', '리스크관리'],
+    desc:'성과와 자원을 종합적으로 판단하는 역량' },
+  { id:'insight',     name:'통찰력',   icon:'🔭', color:'#7ECFBD', bg:'rgba(126,207,189,.1)',
+    courses:['기획', '의사결정', '트렌드이해'],
+    desc:'변화의 흐름과 장기 방향을 읽는 역량' },
+  { id:'innovation',  name:'혁신성',   icon:'⚡', color:'#8ED4A0', bg:'rgba(142,212,160,.1)',
+    courses:['AI 활용'],
+    desc:'새로운 방식과 기회를 발굴하는 역량' },
+  { id:'global',      name:'글로벌감각',icon:'✈️', color:'#F0B87A', bg:'rgba(240,184,122,.1)',
+    courses:['글로벌 어학'],
+    desc:'다양한 시장과 문화를 바라보는 시야' },
+  { id:'empathy',     name:'감성+육성', icon:'💡', color:'#FFB8C8', bg:'rgba(255,184,200,.1)',
+    courses:['코칭', '문화예술', '감도개선'],
+    desc:'사람을 이해하고 성장을 이끄는 역량' },
+];
+
+/* ════════════════════════════════
+   14 QUESTIONS
+   part: 1=현재, 2=미래
+   각 선택지에 comp id로 점수 매핑
+════════════════════════════════ */
+const QUESTIONS = [
+  // ── PART 1: 현재의 나 (Q1~Q7) ──
+  {
+    part:1,
+    text:'중요 업체와의 협상 자리에 참석하게 되었습니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'상대방의 입장과 관심사를 파악하며 신뢰를 쌓는 데 집중한다.', comp:'influence' },
+      { text:'협상 결과가 조직의 성과에 어떤 영향을 미칠지 집중한다.', comp:'business' },
+    ]
+  },
+  {
+    part:1,
+    text:'시장 환경이 예상보다 빠르게 변화하고 있습니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'변화가 일어나는 원인과 흐름을 분석한다.', comp:'insight' },
+      { text:'변화 속에서 새로운 기회를 먼저 찾는다.', comp:'innovation' },
+    ]
+  },
+  {
+    part:1,
+    text:'외부 우수 기업을 방문할 기회가 생겼습니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'새로운 시장과 고객의 특성을 이해하는 데 관심이 많다.', comp:'global' },
+      { text:'사람들이 무엇에 반응하고 감동하는지 관찰하는 데 관심이 많다.', comp:'empathy' },
+    ]
+  },
+  {
+    part:1,
+    text:'성과가 기대에 미치지 못하는 팀원과 면담을 진행합니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'질문을 통해 스스로 답을 찾도록 돕는다.', comp:'empathy' },
+      { text:'공감과 소통을 통해 동기를 회복하도록 돕는다.', comp:'influence' },
+    ]
+  },
+  {
+    part:1,
+    text:'신규 사업 또는 신규 과제를 검토하게 되었습니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'예상 성과와 투입 자원을 먼저 검토한다.', comp:'business' },
+      { text:'장기적인 의미와 성장 가능성을 먼저 검토한다.', comp:'insight' },
+    ]
+  },
+  {
+    part:1,
+    text:'새로운 성장 기회를 찾고 있습니다.',
+    sub:'당신의 실제 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'기존에 없던 방식이나 접근을 고민한다.', comp:'innovation' },
+      { text:'외부 성공 사례를 조사하고 적용 방법을 찾는다.', comp:'global' },
+    ]
+  },
+  {
+    part:1,
+    text:'팀을 운영할 때 더 중요하게 생각하는 것은 무엇입니까?',
+    sub:'당신의 평소 모습에 더 가까운 것은 무엇입니까?',
+    choices:[
+      { text:'구성원의 감정과 몰입 상태를 이해하는 것', comp:'empathy' },
+      { text:'구성원의 성장을 돕는 것', comp:'empathy' },
+    ]
+  },
+
+  // ── PART 2: 바라는 나 (Q8~Q14) ──
+  {
+    part:2,
+    text:'CEO가 직접 챙기는 핵심 프로젝트의 책임자를 맡게 된다면 어떤 역할에 더 끌립니까?',
+    sub:'더 하고 싶은 역할을 선택하세요.',
+    choices:[
+      { text:'다양한 이해관계자를 설득하고 협력을 이끌어내는 역할', comp:'influence' },
+      { text:'성과를 책임지고 중요한 판단을 내리는 역할', comp:'business' },
+    ]
+  },
+  {
+    part:2,
+    text:'회사의 중장기 성장 방향을 논의하는 회의에 참여하게 되었습니다.',
+    sub:'어떤 역할을 맡고 싶습니까?',
+    choices:[
+      { text:'미래 변화와 흐름을 읽어 방향을 제시하는 역할', comp:'insight' },
+      { text:'새로운 기회와 시도를 발굴하는 역할', comp:'innovation' },
+    ]
+  },
+  {
+    part:2,
+    text:'한 달간 외부 기관에서 연수할 기회가 생겼습니다.',
+    sub:'무엇을 가장 얻고 싶습니까?',
+    choices:[
+      { text:'다양한 시장과 환경을 바라보는 시야', comp:'global' },
+      { text:'사람과 고객을 바라보는 새로운 관점', comp:'empathy' },
+    ]
+  },
+  {
+    part:2,
+    text:'후배 팀장들이 당신을 떠올릴 때 어떤 모습으로 기억되길 원합니까?',
+    sub:'더 가까운 모습을 선택하세요.',
+    choices:[
+      { text:'사람의 성장을 이끌어주는 멘토', comp:'empathy' },
+      { text:'사람들의 참여와 공감을 이끌어내는 리더', comp:'influence' },
+    ]
+  },
+  {
+    part:2,
+    text:'더 큰 역할을 맡게 된다면 가장 보완하고 싶은 역량은 무엇입니까?',
+    sub:'더 키우고 싶은 것을 선택하세요.',
+    choices:[
+      { text:'성과와 자원을 종합적으로 판단하는 능력', comp:'business' },
+      { text:'장기적인 방향을 설계하는 능력', comp:'insight' },
+    ]
+  },
+  {
+    part:2,
+    text:'1년 동안 새로운 분야를 집중적으로 탐구할 수 있습니다.',
+    sub:'어떤 주제를 선택하시겠습니까?',
+    choices:[
+      { text:'새로운 기술과 업무 방식의 변화', comp:'innovation' },
+      { text:'새로운 시장과 성장 기회의 변화', comp:'global' },
+    ]
+  },
+  {
+    part:2,
+    text:'3년 후 팀원들이 당신을 평가한다면 어떤 말을 가장 듣고 싶습니까?',
+    sub:'더 가까운 것을 선택하세요.',
+    choices:[
+      { text:'"사람의 마음을 이해하고 배려하는 리더였다."', comp:'empathy' },
+      { text:'"나를 성장시켜 준 리더였다."', comp:'empathy' },
+    ]
+  },
+];
+
+/* ════════════════════════════════
+   LEADER TYPE MAP  (top1_top2 → 유형명 + 설명)
+════════════════════════════════ */
+const TYPE_MAP = {
+  'influence_business':  ['사업 개발가',  '사람을 움직여 성과를 만드는 실행형 리더입니다.'],
+  'business_influence':  ['사업 개발가',  '사람을 움직여 성과를 만드는 실행형 리더입니다.'],
+  'influence_insight':   ['전략적 조율가','큰 그림을 그리고 조직을 연결하는 리더입니다.'],
+  'insight_influence':   ['전략적 조율가','큰 그림을 그리고 조직을 연결하는 리더입니다.'],
+  'influence_innovation':['변화 촉진가',  '새로운 시도를 이끌며 팀을 동기부여하는 리더입니다.'],
+  'innovation_influence':['변화 촉진가',  '새로운 시도를 이끌며 팀을 동기부여하는 리더입니다.'],
+  'influence_global':    ['글로벌 커넥터','다양한 관계와 네트워크로 기회를 여는 리더입니다.'],
+  'global_influence':    ['글로벌 커넥터','다양한 관계와 네트워크로 기회를 여는 리더입니다.'],
+  'influence_empathy':   ['성장 촉진가',  '사람을 이해하고 성장을 이끄는 따뜻한 리더입니다.'],
+  'empathy_influence':   ['성장 촉진가',  '사람을 이해하고 성장을 이끄는 따뜻한 리더입니다.'],
+  'business_insight':    ['미래 설계자',  '데이터와 통찰로 미래를 설계하는 전략가입니다.'],
+  'insight_business':    ['미래 설계자',  '데이터와 통찰로 미래를 설계하는 전략가입니다.'],
+  'business_innovation': ['성과 혁신가',  '효율과 혁신을 동시에 추구하는 실용적 리더입니다.'],
+  'innovation_business': ['성과 혁신가',  '효율과 혁신을 동시에 추구하는 실용적 리더입니다.'],
+  'business_global':     ['글로벌 사업가','사업 감각과 글로벌 시야를 겸비한 리더입니다.'],
+  'global_business':     ['글로벌 사업가','사업 감각과 글로벌 시야를 겸비한 리더입니다.'],
+  'business_empathy':    ['신뢰 경영자',  '성과와 사람 모두를 챙기는 균형 잡힌 리더입니다.'],
+  'empathy_business':    ['신뢰 경영자',  '성과와 사람 모두를 챙기는 균형 잡힌 리더입니다.'],
+  'insight_innovation':  ['혁신 전략가',  '미래를 읽고 새로운 방법을 만드는 창의적 전략가입니다.'],
+  'innovation_insight':  ['혁신 전략가',  '미래를 읽고 새로운 방법을 만드는 창의적 전략가입니다.'],
+  'insight_global':      ['글로벌 통찰가','세계적 시각으로 미래 방향을 제시하는 리더입니다.'],
+  'global_insight':      ['글로벌 통찰가','세계적 시각으로 미래 방향을 제시하는 리더입니다.'],
+  'insight_empathy':     ['인재 발굴가',  '사람의 가능성을 발견하고 키우는 통찰력 있는 리더입니다.'],
+  'empathy_insight':     ['인재 발굴가',  '사람의 가능성을 발견하고 키우는 통찰력 있는 리더입니다.'],
+  'innovation_global':   ['변화 개척자',  '새로운 시장과 방식을 개척하는 도전적 리더입니다.'],
+  'global_innovation':   ['변화 개척자',  '새로운 시장과 방식을 개척하는 도전적 리더입니다.'],
+  'innovation_empathy':  ['창의적 육성가','창의성과 따뜻함으로 팀을 성장시키는 리더입니다.'],
+  'empathy_innovation':  ['창의적 육성가','창의성과 따뜻함으로 팀을 성장시키는 리더입니다.'],
+  'global_empathy':      ['문화 연결가',  '다양성을 이해하고 사람을 잇는 글로벌 리더입니다.'],
+  'empathy_global':      ['문화 연결가',  '다양성을 이해하고 사람을 잇는 글로벌 리더입니다.'],
+};
+
+/* ════════════════════════════════
+   STATE
+════════════════════════════════ */
+let userName='', userDept='';
+let currentQ=0;
+let answers=new Array(QUESTIONS.length).fill(null);
+let myResult=null;
+let allData=[];
+
+/* ════════════════════════════════
+   PAGE NAV
+════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goAdmin(){ showPage('admin'); if(authed) loadAdmData(); }
+
+/* ════════════════════════════════
+   QUIZ
+════════════════════════════════ */
+function startQuiz(){
+  userName=document.getElementById('i-name').value.trim()||'익명';
+  userDept=document.getElementById('i-dept').value.trim()||'미입력';
+  currentQ=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  renderQ(0);
+  showPage('quiz');
+}
+
+function renderQ(idx){
+  const q=QUESTIONS[idx];
+  const pct=(idx/QUESTIONS.length)*100;
+  document.getElementById('q-cnt').textContent=String(idx+1).padStart(2,'0')+' / '+QUESTIONS.length;
+  document.getElementById('q-prog').style.width=pct+'%';
+  document.getElementById('q-part').textContent='PART '+q.part+(q.part===1?' — 현재의 나':' — 바라는 나');
+
+  // PART 전환 시 안내 카드
+  const isPartSwitch = idx===7;
+  const partDivider = isPartSwitch
+    ? `<div class="part-divider">
+        <div class="pd-num">PART 2 / 14</div>
+        <div class="pd-title">바라는 나</div>
+        <div class="pd-desc">지금부터는 미래의 모습에 관한 질문입니다.<br>더 성장하고 싶은 방향을 솔직하게 선택해주세요.</div>
+       </div>` : '';
+
+  const choiceHTML=q.choices.map((c,ci)=>`
+    <div class="choice ${answers[idx]===ci?'sel':''}" onclick="selChoice(${idx},${ci})">
+      <div class="choice-alpha">${['A','B'][ci]}</div>
+      <div class="choice-text">${c.text}</div>
+    </div>`).join('');
+
+  document.getElementById('q-stage').innerHTML=`
+    ${partDivider}
+    <div class="q-scenario">
+      <div class="q-text">${q.text}</div>
+      ${q.sub?`<div class="q-sub" style="margin-top:.5rem">${q.sub}</div>`:''}
+    </div>
+    <div class="choices">${choiceHTML}</div>`;
+
+  document.getElementById('q-back').style.visibility=idx===0?'hidden':'visible';
+  const nb=document.getElementById('q-next');
+  nb.disabled=answers[idx]===null;
+  nb.innerHTML=idx===QUESTIONS.length-1
+    ?'결과 보기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+    :'다음 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+}
+
+function selChoice(qi,ci){
+  answers[qi]=ci;
+  document.querySelectorAll('.choice').forEach((el,i)=>el.classList.toggle('sel',i===ci));
+  document.getElementById('q-next').disabled=false;
+}
+function prevQ(){ if(currentQ>0){currentQ--;renderQ(currentQ);} }
+function nextQ(){
+  if(answers[currentQ]===null) return;
+  if(currentQ===QUESTIONS.length-1){ calcResult(); return; }
+  currentQ++;
+  renderQ(currentQ);
+}
+
+/* ════════════════════════════════
+   CALC
+════════════════════════════════ */
+function calcResult(){
+  // 현재(part1) / 희망(part2) 각 역량별 점수 합산
+  const now={}, want={};
+  COMP.forEach(c=>{ now[c.id]=0; want[c.id]=0; });
+
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===null) return;
+    const comp=q.choices[answers[i]].comp;
+    if(q.part===1) now[comp]=(now[comp]||0)+1;
+    else           want[comp]=(want[comp]||0)+1;
+  });
+
+  // gap
+  const gap={};
+  COMP.forEach(c=>{ gap[c.id]=( (want[c.id]||0)-(now[c.id]||0) ); });
+
+  // 유형: 현재 Top2
+  const sorted=[...COMP].sort((a,b)=>(now[b.id]||0)-(now[a.id]||0));
+  const top1=sorted[0].id, top2=sorted[1].id;
+  const typeKey=top1+'_'+top2;
+  const [typename, typedesc]=TYPE_MAP[typeKey]||['균형형 리더','다양한 역량을 고르게 갖춘 리더입니다.'];
+
+  // 교육 추천: gap 내림차순 (같으면 now 오름차순)
+  const recOrder=[...COMP].sort((a,b)=>{
+    const gd=(gap[b.id]||0)-(gap[a.id]||0);
+    return gd!==0?gd:(now[a.id]||0)-(now[b.id]||0);
+  });
+
+  myResult={
+    name:userName, dept:userDept,
+    now, want, gap,
+    typename, typedesc,
+    top1, top2,
+    date:new Date().toLocaleDateString('ko-KR')
+  };
+
+  submitResult();
+  renderResult();
+  showPage('result');
+}
+
+/* ════════════════════════════════
+   SUBMIT
+════════════════════════════════ */
+async function submitResult(){
+  if(!myResult) return;
+  const configured=GAS_URL.indexOf('여기에')===-1;
+  if(!configured) return;
+  const p={ name:myResult.name, dept:myResult.dept, typename:myResult.typename, ...myResult.now };
+  try{
+    await fetch(GAS_URL,{method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+  }catch(e){}
+}
+
+/* ════════════════════════════════
+   RENDER RESULT
+════════════════════════════════ */
+function renderResult(){
+  if(!myResult) return;
+  const {now,want,gap,typename,typedesc,top1,top2,name}=myResult;
+
+  // RING — 현재 Top 역량
+  const topComp=COMP.find(c=>c.id===top1);
+  document.getElementById('r-ring-label').textContent=topComp?.name||'';
+  drawRing(topComp?.color||'#C4B0FF');
+
+  // TYPE
+  document.getElementById('r-type-tag').textContent='리더십 유형 — '+
+    (COMP.find(c=>c.id===top1)?.name||'')+' + '+(COMP.find(c=>c.id===top2)?.name||'');
+  document.getElementById('r-typename').textContent=typename;
+  document.getElementById('r-typedesc').textContent=name+'님, '+typedesc;
+
+  // SCORE ROWS
+  const maxNow=Math.max(...COMP.map(c=>now[c.id]||0),1);
+  const maxWant=Math.max(...COMP.map(c=>want[c.id]||0),1);
+  document.getElementById('r-score-rows').innerHTML=
+    [...COMP].sort((a,b)=>(now[b.id]||0)-(now[a.id]||0)).map(c=>{
+      const n=now[c.id]||0, w=want[c.id]||0, g=gap[c.id]||0;
+      const nowPct=n/Math.max(maxNow,maxWant)*100;
+      const wantPct=w/Math.max(maxNow,maxWant)*100;
+      const gLabel=g>0?`+${g}`:String(g);
+      const gColor=g>0?'var(--coral)':g<0?'var(--teal)':'var(--sub)';
+      return`<div class="score-row">
+        <div class="score-head">
+          <span class="score-name">${c.icon} ${c.name}</span>
+          <span class="score-nums">
+            <span class="now">현재 ${n}</span>
+            <span class="want">희망 ${w}</span>
+            <span class="gap" style="color:${gColor}">Gap ${gLabel}</span>
+          </span>
+        </div>
+        <div class="score-bar-bg">
+          <div class="score-bar-want" style="width:${wantPct}%"></div>
+          <div class="score-bar-now" style="width:${nowPct}%"></div>
+        </div>
+      </div>`;
+    }).join('');
+
+  // RECS — gap 내림차순
+  const recOrder=[...COMP].sort((a,b)=>{
+    const gd=(gap[b.id]||0)-(gap[a.id]||0);
+    return gd!==0?gd:(now[a.id]||0)-(now[b.id]||0);
+  }).filter(c=>(gap[c.id]||0)>=0).slice(0,6);
+
+  document.getElementById('r-recs').innerHTML=recOrder.length
+    ?recOrder.map((c,i)=>{
+        const g=gap[c.id]||0;
+        const urgent=g>=2;
+        return`<div class="rec-card">
+          ${urgent?'<span class="rec-pri">🔥 우선</span>':''}
+          <div class="rec-icon" style="background:${c.bg}">${c.icon}</div>
+          <div class="rec-skill">${c.name}</div>
+          <div class="rec-course">${c.courses.join(' · ')}</div>
+          <div class="rec-gap">Gap +${g} · 성장 기회 ${i===0?'최우선':i===1?'높음':'보통'}</div>
+        </div>`;
+      }).join('')
+    :'<p style="font-size:15px;color:var(--sub)">현재와 희망이 균형 잡혀 있습니다! 심화 과정을 검토해보세요 🎉</p>';
+}
+
+/* ════════════════════════════════
+   RING DRAW
+════════════════════════════════ */
+function drawRing(color){
+  const cv=document.getElementById('ring-cv');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height,cx=W/2,cy=H/2,R=58,T=11;
+  ctx.clearRect(0,0,W,H);
+  ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=T;ctx.stroke();
+  const g=ctx.createLinearGradient(cx-R,cy,cx+R,cy);
+  g.addColorStop(0,color);g.addColorStop(1,'rgba(126,207,189,.8)');
+  ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI*1.5);
+  ctx.strokeStyle=g;ctx.lineWidth=T;ctx.lineCap='round';ctx.stroke();
+}
+
+/* ════════════════════════════════
+   DL / PRINT
+════════════════════════════════ */
+function dlTxt(){
+  if(!myResult) return;
+  const {name,dept,typename,typedesc,now,want,gap,date}=myResult;
+  let t=`[ 팀장 리더십 진단 결과 ]\n이름: ${name}  소속: ${dept}\n유형: ${typename}\n진단일: ${date}\n\n`;
+  t+=`━ 역량별 점수 ━\n${'역량'.padEnd(8)}현재  희망  Gap\n`;
+  COMP.forEach(c=>{
+    const n=now[c.id]||0,w=want[c.id]||0,g=(gap[c.id]||0);
+    t+=`${c.name.padEnd(8)}${String(n).padEnd(6)}${String(w).padEnd(6)}${g>=0?'+':''}${g}\n`;
+  });
+  t+=`\n━ 추천 교육 ━\n`;
+  [...COMP].sort((a,b)=>(gap[b.id]||0)-(gap[a.id]||0)).filter(c=>(gap[c.id]||0)>=0).slice(0,5)
+    .forEach(c=>{t+=`• ${c.courses.join(', ')}  (${c.name} Gap ${gap[c.id]>=0?'+':''}${gap[c.id]})\n`});
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(t);
+  a.download=`리더십진단_${name}.txt`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function doPrint(){
+  if(!myResult) return;
+  const {name,dept,typename,now,want,gap,date}=myResult;
+  const rows=COMP.map(c=>{
+    const n=now[c.id]||0,w=want[c.id]||0,g=gap[c.id]||0;
+    const gc=g>0?'#F07A8A':g<0?'#7ECFBD':'#888';
+    return`<tr><td>${c.icon} ${c.name}</td><td>${n}</td><td>${w}</td>
+      <td style="color:${gc};font-weight:700">${g>=0?'+':''}${g}</td></tr>`;
+  }).join('');
+  const recs=[...COMP].sort((a,b)=>(gap[b.id]||0)-(gap[a.id]||0))
+    .filter(c=>(gap[c.id]||0)>=0).slice(0,5)
+    .map(c=>`<li>${c.icon} <strong>${c.courses.join(' · ')}</strong> — ${c.name} Gap ${gap[c.id]>=0?'+':''}${gap[c.id]}</li>`).join('');
+  const w=window.open('','_blank','width=740,height=860');
+  if(!w){alert('팝업이 차단되었습니다. 팝업을 허용해주세요.');return;}
+  w.document.write(`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+  <title>리더십진단_${name}</title>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+  body{font-family:'Noto Sans KR',sans-serif;max-width:600px;margin:40px auto;color:#111;font-size:15px;line-height:1.7}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px}.meta{color:#666;font-size:13px;margin-bottom:8px}
+  .type{font-size:20px;font-weight:700;color:#534AB7;margin-bottom:24px}
+  table{width:100%;border-collapse:collapse;margin-bottom:24px}
+  th{background:#f5f5f5;font-size:12px;font-weight:600;color:#555;padding:9px 11px;text-align:left}
+  td{padding:9px 11px;border-bottom:1px solid #eee}h2{font-size:16px;font-weight:700;margin:0 0 10px}
+  ul{padding-left:18px}li{margin-bottom:6px}@media print{body{margin:20px}}</style></head><body>
+  <h1>팀장 리더십 진단 결과</h1>
+  <div class="meta">${name} | ${dept} | ${date}</div>
+  <div class="type">유형: ${typename}</div>
+  <h2>역량별 점수</h2>
+  <table><thead><tr><th>역량</th><th>현재</th><th>희망</th><th>Gap</th></tr></thead><tbody>${rows}</tbody></table>
+  <h2>추천 교육 과정</h2><ul>${recs||'<li>Gap 없음 — 심화 과정을 검토해보세요 🎉</li>'}</ul>
+  <script>window.onload=function(){window.print()}<\/script></body></html>`);
+  w.document.close();
+}
+function retake(){
+  myResult=null; answers=new Array(QUESTIONS.length).fill(null); currentQ=0;
+  document.getElementById('i-name').value=''; document.getElementById('i-dept').value='';
+  showPage('intro');
+}
+
+/* ════════════════════════════════
+   ADMIN
+════════════════════════════════ */
+let authed=false;
+function admLogin(){
+  if(document.getElementById('adm-pw').value===ADMIN_PW){
+    authed=true;
+    document.getElementById('adm-gate').style.display='none';
+    document.getElementById('adm-dash').style.display='block';
+    loadAdmData();
+  } else { document.getElementById('adm-err').style.display='block'; }
+}
+
+function loadAdmData(){
+  const notice=document.getElementById('gas-notice');
+  const ok=GAS_URL.indexOf('여기에')===-1;
+  if(!ok){
+    notice.className='gas-notice gn-warn';
+    notice.innerHTML='⚙️ <strong>Google Sheets 미연결</strong> — index.html 상단 GAS_URL에 Apps Script 웹앱 주소를 붙여넣으면 실시간 데이터를 확인할 수 있습니다.';
+    allData=[]; renderAdm(); return;
+  }
+  notice.className='gas-notice gn-info';
+  notice.innerHTML='<span class="spinner"></span>데이터 불러오는 중...';
+  const cb='_cb_'+Date.now(), sc=document.createElement('script');
+  const timer=setTimeout(()=>{ cleanup(); notice.className='gas-notice gn-err'; notice.innerHTML='❌ 로드 실패 — Apps Script 배포 설정을 확인하세요.'; },10000);
+  function cleanup(){ clearTimeout(timer); delete window[cb]; if(sc.parentNode) sc.parentNode.removeChild(sc); }
+  window[cb]=function(json){
+    cleanup();
+    allData=(json.rows||[]).map(r=>({
+      name:String(r['이름']||''), dept:String(r['소속']||''),
+      typename:String(r['유형']||''),
+      date:String(r['제출시각']||''),
+      now:{
+        influence:parseFloat(r['영향력'])||0,
+        business:parseFloat(r['사업감각'])||0,
+        insight:parseFloat(r['통찰력'])||0,
+        innovation:parseFloat(r['혁신성'])||0,
+        global:parseFloat(r['글로벌감각'])||0,
+        empathy:parseFloat(r['감성+육성'])||0,
+      }
+    }));
+    notice.className='gas-notice gn-ok';
+    notice.innerHTML=`✅ <strong>연결됨</strong> — 총 <strong>${allData.length}건</strong> 불러왔습니다.`;
+    renderAdm();
+  };
+  sc.src=GAS_URL+'?callback='+cb; document.head.appendChild(sc);
+}
+
+function getFiltered(){
+  let d=[...allData];
+  const dept=document.getElementById('f-dept').value;
+  if(dept) d=d.filter(e=>e.dept===dept);
+  return d;
+}
+
+function renderAdm(){
+  const data=getFiltered(), n=data.length, total=allData.length;
+  const depts=[...new Set(allData.map(e=>e.dept))].filter(Boolean);
+  const ds=document.getElementById('f-dept'), cur=ds.value;
+  ds.innerHTML='<option value="">전체 소속</option>'+depts.map(d=>`<option${d===cur?' selected':''}>${d}</option>`).join('');
+
+  document.getElementById('kpi-grid').innerHTML=`
+    <div class="kpi"><div class="kpi-l">진단 완료</div><div class="kpi-v">${n}</div><div class="kpi-s">명 (전체 ${total}명)</div></div>
+    <div class="kpi"><div class="kpi-l">가장 많은 유형</div><div class="kpi-v" style="font-size:18px;color:var(--lav)">${getMostType(data)}</div></div>
+    <div class="kpi"><div class="kpi-l">최다 Gap 역량</div><div class="kpi-v" style="font-size:18px;color:var(--coral)">${getTopGapComp(data)}</div></div>`;
+
+  if(!n){
+    ['adm-now-chart','adm-gap-chart'].forEach(id=>document.getElementById(id).innerHTML='<p style="font-size:14px;color:var(--sub)">데이터가 없습니다.</p>');
+    document.getElementById('adm-tbl').innerHTML='<tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--sub)">데이터가 없습니다.</td></tr>';
+    return;
+  }
+
+  // NOW bar chart
+  const nowAvgs=COMP.map(c=>({c,v:+(data.reduce((a,e)=>a+(e.now[c.id]||0),0)/n).toFixed(1)})).sort((a,b)=>b.v-a.v);
+  const maxV=Math.max(...nowAvgs.map(x=>x.v),1);
+  document.getElementById('adm-now-chart').innerHTML=nowAvgs.map(({c,v})=>`
+    <div class="abr-row">
+      <div class="abr-lbl">${c.icon} ${c.name}</div>
+      <div class="abr-bg"><div class="abr-fill" style="width:${v/maxV*100}%;background:${c.color}"></div></div>
+      <div class="abr-val" style="color:${c.color}">${v}</div>
+    </div>`).join('');
+
+  // GAP bar chart (평균 gap — 각자의 gap 평균을 구하려면 want가 필요하지만
+  // 저장 데이터에 want가 없으므로 "추천 역량 빈도"로 대체)
+  const gapFreq={};
+  COMP.forEach(c=>{gapFreq[c.id]=0});
+  // gap은 저장하지 않으므로 now 낮은 순으로 수요 추정
+  const gapOrder=[...COMP].sort((a,b)=>
+    data.reduce((s,e)=>s+(e.now[a.id]||0),0)-data.reduce((s,e)=>s+(e.now[b.id]||0),0));
+  const maxG=data.length||1;
+  document.getElementById('adm-gap-chart').innerHTML=gapOrder.map(c=>{
+    const low=data.filter(e=>(e.now[c.id]||0)<=1).length;
+    return`<div class="abr-row">
+      <div class="abr-lbl">${c.icon} ${c.name}</div>
+      <div class="abr-bg"><div class="abr-fill" style="width:${low/maxG*100}%;background:${c.color}"></div></div>
+      <div class="abr-val" style="color:${c.color}">${low}명</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('adm-tbl').innerHTML=[...data].map(e=>{
+    const topComp=COMP.reduce((a,b)=>(e.now[a.id]||0)>=(e.now[b.id]||0)?a:b);
+    return`<tr>
+      <td><strong>${e.name}</strong></td><td>${e.dept}</td>
+      <td><span class="chip ch-a">${e.typename||'-'}</span></td>
+      ${COMP.map(c=>{const v=e.now[c.id]||0;const cc=v>=2?'color:var(--teal)':v<=0?'color:var(--coral)':'';return`<td style="${cc}">${v}</td>`}).join('')}
+      <td style="color:var(--lav)">${topComp.name}</td>
+      <td style="color:var(--sub);font-size:11px;white-space:nowrap">${e.date}</td>
+    </tr>`;
+  }).join('');
+}
+
+function getMostType(data){
+  if(!data.length) return '-';
+  const freq={};
+  data.forEach(e=>{freq[e.typename]=(freq[e.typename]||0)+1});
+  return Object.entries(freq).sort((a,b)=>b[1]-a[1])[0]?.[0]||'-';
+}
+function getTopGapComp(data){
+  if(!data.length) return '-';
+  const sums={};
+  COMP.forEach(c=>{sums[c.id]=data.reduce((a,e)=>a+(e.now[c.id]||0),0)});
+  const lowest=Object.entries(sums).sort((a,b)=>a[1]-b[1])[0]?.[0];
+  return COMP.find(c=>c.id===lowest)?.name||'-';
+}
+
+function dlCSV(){
+  const data=getFiltered();
+  if(!data.length){alert('내보낼 데이터가 없습니다.');return;}
+  const hdr=['이름','소속','유형',...COMP.map(c=>c.name),'제출일'];
+  const rows=data.map(e=>[`"${e.name}"`,`"${e.dept}"`,`"${e.typename}"`,
+    ...COMP.map(c=>e.now[c.id]||0),`"${e.date}"`]);
+  const csv='\uFEFF'+[hdr.map(h=>`"${h}"`).join(','),...rows.map(r=>r.join(','))].join('\r\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;base64,'+btoa(unescape(encodeURIComponent(csv)));
+  a.download=`리더십진단_${new Date().toLocaleDateString('ko-KR').replace(/\./g,'-')}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>
